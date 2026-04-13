@@ -868,7 +868,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
-          "BudgetTracker.Domain": "1.0.0"
+          "BudgetTracker.Domain": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "8.0.0"
         },
         "compile": {
           "bin/placeholder/BudgetTracker.Application.dll": {}

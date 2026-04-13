@@ -1,15 +1,16 @@
+using BudgetTracker.Infrastructure;
+using BudgetTracker.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,9 +18,30 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
+app.MapGet("/health/db", async (ApplicationDbContext dbContext, CancellationToken cancellationToken) =>
+{
+    var canConnect = await dbContext.Database.CanConnectAsync(cancellationToken);
+
+    if (!canConnect)
+    {
+        return Results.Problem(
+            title: "Database connection failed",
+            statusCode: StatusCodes.Status503ServiceUnavailable);
+    }
+
+    var budgetsCount = await dbContext.Budgets.CountAsync(cancellationToken);
+
+    return Results.Ok(new
+    {
+        status = "ok",
+        database = "connected",
+        budgetsCount
+    });
+});
+
 app.Run();
+
+public partial class Program;
