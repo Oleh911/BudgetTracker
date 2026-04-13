@@ -1,6 +1,70 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+# Visual Studio / .NET
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
-/.vs/BudgetTracker
-/.vs/ProjectEvaluation
+# Build outputs
+**/bin/
+**/obj/
+*.log
+*.nupkg
+publish/
+
+# Rider / ReSharper
+.idea/
+*.sln.iml
+_ReSharper*/
+*.DotSettings.user
+
+# VS Code
+.vscode/
+
+# NuGet
+/packages/
+/.nuget/
+
+# Test results / coverage
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+coverage*.xml
+*.trx
+
+# EF and local DB files
+*.db
+*.mdf
+*.ldf
+*.sqlite
+*.sqlite3
+
+# Secrets and env
+secrets.json
+*.usersecrets
+.env
+.env.*.local
+local.settings.json
+
+# Misc
+*.cache
+*.tmp
+*~
+.DS_Store
+Thumbs.db
+
+# Logs, profiler, telemetry
+*.log
+*.ndjson
+
+# Generated files
+*.g.cs
+obj/**/project.assets.json
+
+# Ignore personal and workspace-only files
+*.local
+*.bak
+
+# Project-specific files to exclude from git
+ROADMAP.md
