@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BudgetTracker.Application.Common.Abstractions;
+using BudgetTracker.Domain.Enums;
+using BudgetTracker.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BudgetTracker.Application.Common.Abstractions;
-using BudgetTracker.Infrastructure.Persistence;
+using Npgsql;
 
 namespace BudgetTracker.Infrastructure;
 
@@ -18,11 +15,21 @@ public static class DependencyInjection
         var connectionString = configuration.GetConnectionString("BudgetTrackerDatabase")
             ?? throw new InvalidOperationException("Connection string 'BudgetTrackerDatabase' was not found.");
 
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(connectionString, npgsql =>
+        var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
+        dataSourceBuilder.MapEnum<CurrencyCode>("currency_code");
+        dataSourceBuilder.MapEnum<CategoryKind>("category_kind");
+        dataSourceBuilder.MapEnum<OperationKind>("operation_kind");
+
+        var dataSource = dataSourceBuilder.Build();
+
+        services.AddSingleton(dataSource);
+
+        services.AddDbContext<ApplicationDbContext>((provider, options) =>
+            options.UseNpgsql(provider.GetRequiredService<NpgsqlDataSource>(), npgsql =>
             {
                 npgsql.EnableRetryOnFailure();
-            }));
+            })
+            .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
