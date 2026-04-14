@@ -61,7 +61,7 @@ public sealed class BudgetsController(IApplicationDbContext dbContext) : Control
 
         if (!ModelState.IsValid)
         {
-            return ValidationProblem(ModelState);
+            return BadRequest(ModelState);
         }
 
         var budget = new Budget(
@@ -98,7 +98,7 @@ public sealed class BudgetsController(IApplicationDbContext dbContext) : Control
 
         if (!ModelState.IsValid)
         {
-            return ValidationProblem(ModelState);
+            return BadRequest(ModelState);
         }
 
         var budget = await dbContext.Budgets.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
