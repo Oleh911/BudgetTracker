@@ -9,4 +9,6 @@ public interface IApplicationDbContext
     DbSet<Category> Categories { get; }
     DbSet<Subcategory> Subcategories { get; }
     DbSet<BudgetOperation> BudgetOperations { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

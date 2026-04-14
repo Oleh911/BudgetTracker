@@ -28,18 +28,17 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             b.ToTable("budgets");
             b.HasKey(x => x.Id);
+
             b.Property(x => x.Name).HasMaxLength(150).IsRequired();
             b.Property(x => x.AllocatedAmount).HasColumnType("numeric(14,2)").IsRequired();
-            b.Property(x => x.Currency).HasConversion<string>().HasMaxLength(8).IsRequired();
+            b.Property(x => x.Currency).HasColumnType("currency_code").IsRequired();
             b.Property(x => x.Note).HasColumnType("text");
-            b.Property(x => x.PeriodStart).IsRequired();
-            b.Property(x => x.PeriodEnd).IsRequired();
             b.Property(x => x.IsArchived).IsRequired();
             b.Property(x => x.DisplayOrder).IsRequired();
             b.Property(x => x.CreatedAt).IsRequired();
             b.Property(x => x.UpdatedAt).IsRequired();
-            b.HasIndex(x => new { x.Name, x.PeriodStart, x.PeriodEnd }).IsUnique();
-            b.HasIndex(x => new { x.PeriodStart, x.PeriodEnd });
+
+            b.HasIndex(x => x.Name).IsUnique();
             b.HasIndex(x => x.Currency);
         });
 
@@ -49,7 +48,7 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
             c.ToTable("categories");
             c.HasKey(x => x.Id);
             c.Property(x => x.Name).HasMaxLength(100).IsRequired();
-            c.Property(x => x.Kind).HasConversion<string>().HasMaxLength(16).IsRequired();
+            c.Property(x => x.Kind).HasColumnType("category_kind").IsRequired();
             c.Property(x => x.Color).HasMaxLength(32);
             c.Property(x => x.Icon).HasMaxLength(64);
             c.Property(x => x.DisplayOrder).IsRequired();
@@ -78,7 +77,7 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             o.ToTable("budget_operations");
             o.HasKey(x => x.Id);
-            o.Property(x => x.Kind).HasConversion<string>().HasMaxLength(16).IsRequired();
+            o.Property(x => x.Kind).HasColumnType("operation_kind").IsRequired();
 
             o.Property(x => x.Amount).HasColumnType("numeric(14,2)");
             o.Property(x => x.DebitAmount).HasColumnType("numeric(14,2)");
