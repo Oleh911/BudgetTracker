@@ -1,8 +1,13 @@
-﻿namespace BudgetTracker.Domain.Enums;
+﻿using NpgsqlTypes;
+
+namespace BudgetTracker.Domain.Enums;
 
 public enum CurrencyCode
 {
+    [PgName("UAH")]
     UAH,
+    [PgName("EUR")]
     EUR,
+    [PgName("USD")]
     USD
 }

@@ -2,6 +2,20 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "EFCore.NamingConventions/8.0.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "[8.0.0, 9.0.0)",
+          "Microsoft.EntityFrameworkCore.Relational": "[8.0.0, 9.0.0)",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/EFCore.NamingConventions.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/EFCore.NamingConventions.dll": {}
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -586,7 +600,7 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
-      "Npgsql/8.0.0": {
+      "Npgsql/8.0.5": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0"
@@ -968,6 +982,9 @@
       "BudgetTracker.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Npgsql": "8.0.5"
+        },
         "compile": {
           "bin/placeholder/BudgetTracker.Domain.dll": {}
         },
@@ -981,9 +998,11 @@
         "dependencies": {
           "BudgetTracker.Application": "1.0.0",
           "BudgetTracker.Domain": "1.0.0",
+          "EFCore.NamingConventions": "8.0.3",
           "Microsoft.EntityFrameworkCore": "8.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.5",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.5",
+          "Npgsql": "8.0.5",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.0"
         },
         "compile": {
@@ -996,6 +1015,18 @@
     }
   },
   "libraries": {
+    "EFCore.NamingConventions/8.0.3": {
+      "sha512": "TdDarM6kyIS2oVIhrs3W+r+xL/76ooFJxIXxfhzsNJQu0pB9VdFZwuyKvKJnhoc7OHYFNTBP08AN37kr4CPc+Q==",
+      "type": "package",
+      "path": "efcore.namingconventions/8.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "efcore.namingconventions.8.0.3.nupkg.sha512",
+        "efcore.namingconventions.nuspec",
+        "lib/net8.0/EFCore.NamingConventions.dll"
+      ]
+    },
     "Humanizer.Core/2.14.1": {
       "sha512": "lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "type": "package",
@@ -2160,10 +2191,10 @@
         "mono.texttemplating.nuspec"
       ]
     },
-    "Npgsql/8.0.0": {
-      "sha512": "Qiz74U+O7Mv4knrsXgKVYGJjgwoziK+aMFZqz7PtKR3vyGIhZA0tnW6HoUnL3X+YqtmVuhmoKkN8LDWEHMxPbw==",
+    "Npgsql/8.0.5": {
+      "sha512": "zRG5V8cyeZLpzJlKzFKjEwkRMYIYnHWJvEor2lWXeccS2E1G2nIWYYhnukB51iz5XsWSVEtqg3AxTWM0QJ6vfg==",
       "type": "package",
-      "path": "npgsql/8.0.0",
+      "path": "npgsql/8.0.5",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2178,7 +2209,7 @@
         "lib/netstandard2.0/Npgsql.xml",
         "lib/netstandard2.1/Npgsql.dll",
         "lib/netstandard2.1/Npgsql.xml",
-        "npgsql.8.0.0.nupkg.sha512",
+        "npgsql.8.0.5.nupkg.sha512",
         "npgsql.nuspec",
         "postgresql.png"
       ]
