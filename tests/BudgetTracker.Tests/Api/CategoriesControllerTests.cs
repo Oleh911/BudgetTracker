@@ -8,16 +8,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BudgetTracker.Tests.Api;
 
-public sealed class CategoriesControllerTests
+public sealed class CategoriesControllerTests : ControllerTestsBase
 {
     [Fact]
     public async Task GetAll_Should_ExcludeArchived_ByDefault()
     {
-        var db = CreateDbContext();
+        await using var db = CreateDbContext("category-tests");
         db.Categories.Add(new Category("Food", CategoryKind.Expense));
+
         var archived = new Category("Salary", CategoryKind.Income);
         archived.Archive();
         db.Categories.Add(archived);
+
         await db.SaveChangesAsync();
 
         var controller = new CategoriesController(db);
@@ -26,19 +28,31 @@ public sealed class CategoriesControllerTests
 
         var ok = Assert.IsType<OkObjectResult>(result.Result);
         var items = Assert.IsAssignableFrom<IReadOnlyCollection<CategoryResponse>>(ok.Value);
-        Assert.Single(items);
-        Assert.Equal("Food", items.Single().Name);
+        var item = Assert.Single(items);
+
+        Assert.Equal("Food", item.Name);
+    }
+
+    [Fact]
+    public async Task GetById_Should_ReturnNotFound_When_CategoryDoesNotExist()
+    {
+        await using var db = CreateDbContext("category-tests");
+        var controller = new CategoriesController(db);
+
+        var result = await controller.GetById(Guid.NewGuid(), CancellationToken.None);
+
+        Assert.IsType<NotFoundResult>(result.Result);
     }
 
     [Fact]
     public async Task Create_Should_ReturnBadRequest_When_InvalidInput()
     {
-        var db = CreateDbContext();
+        await using var db = CreateDbContext("category-tests");
         var controller = new CategoriesController(db);
 
         var request = new CreateCategoryRequest
         {
-            Name = "",
+            Name = string.Empty,
             Kind = (CategoryKind)999
         };
 
@@ -51,7 +65,7 @@ public sealed class CategoriesControllerTests
     [Fact]
     public async Task Create_Should_PersistCategory_When_ValidInput()
     {
-        var db = CreateDbContext();
+        await using var db = CreateDbContext("category-tests");
         var controller = new CategoriesController(db);
 
         var request = new CreateCategoryRequest
@@ -66,16 +80,45 @@ public sealed class CategoriesControllerTests
 
         var created = Assert.IsType<CreatedAtActionResult>(result.Result);
         var response = Assert.IsType<CategoryResponse>(created.Value);
+
         Assert.Equal("Transport", response.Name);
         Assert.Equal(CategoryKind.Expense, response.Kind);
-
         Assert.Equal(1, await db.Categories.CountAsync());
+    }
+
+    [Fact]
+    public async Task Update_Should_ModifyCategory_When_InputIsValid()
+    {
+        await using var db = CreateDbContext("category-tests");
+        var category = new Category("Food", CategoryKind.Expense);
+        db.Categories.Add(category);
+        await db.SaveChangesAsync();
+
+        var controller = new CategoriesController(db);
+
+        var request = new UpdateCategoryRequest
+        {
+            Name = "Salary",
+            Kind = CategoryKind.Income,
+            Color = "#FFFFFF",
+            Icon = "wallet"
+        };
+
+        var result = await controller.Update(category.Id, request, CancellationToken.None);
+
+        var ok = Assert.IsType<OkObjectResult>(result.Result);
+        var response = Assert.IsType<CategoryResponse>(ok.Value);
+
+        Assert.Equal("Salary", response.Name);
+        Assert.Equal(CategoryKind.Income, response.Kind);
+        Assert.Equal("#FFFFFF", response.Color);
+        Assert.Equal("wallet", response.Icon);
     }
 
     [Fact]
     public async Task Delete_Should_ArchiveCategory()
     {
-        var db = CreateDbContext();
+        await using var db = CreateDbContext("category-tests");
         var category = new Category("Investments", CategoryKind.Income);
         db.Categories.Add(category);
         await db.SaveChangesAsync();
@@ -88,14 +131,5 @@ public sealed class CategoriesControllerTests
 
         var saved = await db.Categories.FirstAsync(x => x.Id == category.Id);
         Assert.True(saved.IsArchived);
-    }
-
-    private static TestApplicationDbContext CreateDbContext()
-    {
-        var options = new DbContextOptionsBuilder<TestApplicationDbContext>()
-            .UseInMemoryDatabase($"category-tests-{Guid.NewGuid()}")
-            .Options;
-
-        return new TestApplicationDbContext(options);
     }
 }
