@@ -30,7 +30,7 @@ public sealed class Budget
         Name = name.Trim();
         AllocatedAmount = allocatedAmount;
         Currency = currency;
-        Note = string.IsNullOrWhiteSpace(note) ? null : note.Trim();
+        Note = NormalizeOptional(note);
         IsArchived = false;
         DisplayOrder = 0;
         CreatedAt = DateTimeOffset.UtcNow;
@@ -48,7 +48,7 @@ public sealed class Budget
         Name = name.Trim();
         AllocatedAmount = allocatedAmount;
         Currency = currency;
-        Note = string.IsNullOrWhiteSpace(note) ? null : note.Trim();
+        Note = NormalizeOptional(note);
         UpdatedAt = DateTimeOffset.UtcNow;
     }
 
@@ -74,5 +74,10 @@ public sealed class Budget
         {
             throw new ArgumentOutOfRangeException(nameof(allocatedAmount), "Allocated amount cannot be negative.");
         }
+    }
+
+    private static string? NormalizeOptional(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
     }
 }
