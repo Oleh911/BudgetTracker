@@ -52,7 +52,7 @@ public sealed class CategoriesController(IApplicationDbContext dbContext) : Cont
 
     [HttpPost]
     [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(SerializableError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<CategoryResponse>> Create(
         [FromBody] CreateCategoryRequest request,
@@ -83,7 +83,7 @@ public sealed class CategoriesController(IApplicationDbContext dbContext) : Cont
 
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(CategoryResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(SerializableError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<CategoryResponse>> Update(
@@ -141,12 +141,12 @@ public sealed class CategoriesController(IApplicationDbContext dbContext) : Cont
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            ModelState.AddModelError(nameof(name), "Name is required.");
+            ModelState.AddModelError(nameof(CreateCategoryRequest.Name), "Name is required.");
         }
 
         if (!Enum.IsDefined(kind))
         {
-            ModelState.AddModelError(nameof(kind), "Category kind is invalid.");
+            ModelState.AddModelError(nameof(CreateCategoryRequest.Kind), "Category kind is invalid.");
         }
     }
 

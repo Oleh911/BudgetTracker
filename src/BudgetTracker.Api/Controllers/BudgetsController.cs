@@ -51,7 +51,7 @@ public sealed class BudgetsController(IApplicationDbContext dbContext) : Control
 
     [HttpPost]
     [ProducesResponseType(typeof(BudgetResponse), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(SerializableError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<BudgetResponse>> Create(
         [FromBody] CreateBudgetRequest request,
@@ -86,7 +86,7 @@ public sealed class BudgetsController(IApplicationDbContext dbContext) : Control
 
     [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(BudgetResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(SerializableError), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<ActionResult<BudgetResponse>> Update(
@@ -148,12 +148,12 @@ public sealed class BudgetsController(IApplicationDbContext dbContext) : Control
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            ModelState.AddModelError(nameof(name), "Name is required.");
+            ModelState.AddModelError(nameof(CreateBudgetRequest.Name), "Name is required.");
         }
 
         if (allocatedAmount < 0)
         {
-            ModelState.AddModelError(nameof(allocatedAmount), "AllocatedAmount cannot be negative.");
+            ModelState.AddModelError(nameof(CreateBudgetRequest.AllocatedAmount), "AllocatedAmount cannot be negative.");
         }
     }
 
