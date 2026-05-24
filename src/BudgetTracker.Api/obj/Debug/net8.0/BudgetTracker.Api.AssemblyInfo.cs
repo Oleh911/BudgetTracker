@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("a585572f-646b-4a5d-b95d-342019eb214c")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("BudgetTracker.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c35d28519dadb366e44a98492ad9ed735e4f38d5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d4a4701d43f1b0b739fe7b2d6a7b3ebab79e4081")]
 [assembly: System.Reflection.AssemblyProductAttribute("BudgetTracker.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BudgetTracker.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
