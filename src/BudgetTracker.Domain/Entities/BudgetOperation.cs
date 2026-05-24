@@ -7,21 +7,14 @@ public sealed class BudgetOperation
     public Guid Id { get; private set; }
     public OperationKind Kind { get; private set; }
 
-    // For expense/income:
     public Guid? BudgetId { get; private set; }
-
-    // For transfer:
     public Guid? SourceBudgetId { get; private set; }
     public Guid? TargetBudgetId { get; private set; }
 
-    // Expense / Income amount
     public decimal? Amount { get; private set; }
-
-    // Transfer amounts (supporting multi-currency)
     public decimal? DebitAmount { get; private set; }
     public decimal? CreditAmount { get; private set; }
 
-    // Categorization (only subcategory stored)
     public Guid? SubcategoryId { get; private set; }
 
     public string? Note { get; private set; }
@@ -29,55 +22,73 @@ public sealed class BudgetOperation
     public DateTimeOffset CreatedAt { get; private set; }
     public DateTimeOffset UpdatedAt { get; private set; }
 
-    private BudgetOperation() { }
-
-    // Factory methods would be used from Application layer.
-    public static BudgetOperation CreateExpense(Guid budgetId, Guid subcategoryId, decimal amount, DateTimeOffset occurredAt, string? note = null)
+    private BudgetOperation()
     {
-        if (budgetId == Guid.Empty) throw new ArgumentException("budgetId required");
-        if (subcategoryId == Guid.Empty) throw new ArgumentException("subcategoryId required");
-        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount));
+    }
+
+    public static BudgetOperation CreateExpense(
+        Guid budgetId,
+        Guid subcategoryId,
+        decimal amount,
+        DateTimeOffset occurredAt,
+        string? note = null)
+    {
+        if (budgetId == Guid.Empty) throw new ArgumentException("BudgetId required.", nameof(budgetId));
+        if (subcategoryId == Guid.Empty) throw new ArgumentException("SubcategoryId required.", nameof(subcategoryId));
+        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be greater than zero.");
 
         return new BudgetOperation
         {
             Id = Guid.NewGuid(),
             Kind = OperationKind.Expense,
             BudgetId = budgetId,
-            Amount = amount,
             SubcategoryId = subcategoryId,
+            Amount = amount,
             OccurredAt = occurredAt,
-            Note = note?.Trim(),
+            Note = Normalize(note),
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
     }
 
-    public static BudgetOperation CreateIncome(Guid budgetId, Guid subcategoryId, decimal amount, DateTimeOffset occurredAt, string? note = null)
+    public static BudgetOperation CreateIncome(
+        Guid budgetId,
+        Guid subcategoryId,
+        decimal amount,
+        DateTimeOffset occurredAt,
+        string? note = null)
     {
-        if (budgetId == Guid.Empty) throw new ArgumentException("budgetId required");
-        if (subcategoryId == Guid.Empty) throw new ArgumentException("subcategoryId required");
-        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount));
+        if (budgetId == Guid.Empty) throw new ArgumentException("BudgetId required.", nameof(budgetId));
+        if (subcategoryId == Guid.Empty) throw new ArgumentException("SubcategoryId required.", nameof(subcategoryId));
+        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be greater than zero.");
 
         return new BudgetOperation
         {
             Id = Guid.NewGuid(),
             Kind = OperationKind.Income,
             BudgetId = budgetId,
-            Amount = amount,
             SubcategoryId = subcategoryId,
+            Amount = amount,
             OccurredAt = occurredAt,
-            Note = note?.Trim(),
+            Note = Normalize(note),
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
     }
 
-    public static BudgetOperation CreateTransfer(Guid sourceBudgetId, Guid targetBudgetId, decimal debitAmount, decimal creditAmount, DateTimeOffset occurredAt, string? note = null)
+    public static BudgetOperation CreateTransfer(
+        Guid sourceBudgetId,
+        Guid targetBudgetId,
+        decimal debitAmount,
+        decimal creditAmount,
+        DateTimeOffset occurredAt,
+        string? note = null)
     {
-        if (sourceBudgetId == Guid.Empty) throw new ArgumentException("sourceBudgetId required");
-        if (targetBudgetId == Guid.Empty) throw new ArgumentException("targetBudgetId required");
-        if (sourceBudgetId == targetBudgetId) throw new ArgumentException("source and target must be different");
-        if (debitAmount <= 0 || creditAmount <= 0) throw new ArgumentOutOfRangeException("amounts must be > 0");
+        if (sourceBudgetId == Guid.Empty) throw new ArgumentException("SourceBudgetId required.", nameof(sourceBudgetId));
+        if (targetBudgetId == Guid.Empty) throw new ArgumentException("TargetBudgetId required.", nameof(targetBudgetId));
+        if (sourceBudgetId == targetBudgetId) throw new ArgumentException("Source and target budgets must be different.");
+        if (debitAmount <= 0) throw new ArgumentOutOfRangeException(nameof(debitAmount), "DebitAmount must be greater than zero.");
+        if (creditAmount <= 0) throw new ArgumentOutOfRangeException(nameof(creditAmount), "CreditAmount must be greater than zero.");
 
         return new BudgetOperation
         {
@@ -88,9 +99,26 @@ public sealed class BudgetOperation
             DebitAmount = debitAmount,
             CreditAmount = creditAmount,
             OccurredAt = occurredAt,
-            Note = note?.Trim(),
+            Note = Normalize(note),
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
+    }
+
+    public void UpdateNote(string? note)
+    {
+        Note = Normalize(note);
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void UpdateOccurredAt(DateTimeOffset occurredAt)
+    {
+        OccurredAt = occurredAt;
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    private static string? Normalize(string? value)
+    {
+        return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
     }
 }

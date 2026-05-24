@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ghjI46ERnHM=",
+  "dgSpecHash": "AFF5cLmfUrM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj",
+  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\efcore.namingconventions\\8.0.3\\efcore.namingconventions.8.0.3.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

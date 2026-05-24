@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj": {}
+    "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj": {
+    "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj",
         "projectName": "BudgetTracker.Api",
-        "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj",
+        "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\BudgetTracker.Api.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\obj\\",
+        "outputPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,11 +33,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj": {
-                "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj"
+              "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj"
               },
-              "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj"
+              "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj"
               }
             }
           }
@@ -88,18 +88,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj": {
+    "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj",
         "projectName": "BudgetTracker.Application",
-        "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj",
+        "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\obj\\",
+        "outputPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -121,8 +121,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj": {
-                "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj"
+              "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj"
               }
             }
           }
@@ -164,18 +164,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj": {
+    "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj",
         "projectName": "BudgetTracker.Domain",
-        "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj",
+        "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\obj\\",
+        "outputPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -236,18 +236,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj": {
+    "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj",
         "projectName": "BudgetTracker.Infrastructure",
-        "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj",
+        "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\BudgetTracker.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -269,11 +269,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj": {
-                "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj"
+              "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj"
               },
-              "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj": {
-                "projectPath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj"
+              "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj": {
+                "projectPath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Domain\\BudgetTracker.Domain.csproj"
               }
             }
           }
@@ -341,7 +341,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

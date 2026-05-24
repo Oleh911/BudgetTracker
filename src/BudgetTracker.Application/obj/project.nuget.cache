@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cXI2F2j++R4=",
+  "dgSpecHash": "E2Sn/7hfSSE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj",
+  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\src\\BudgetTracker.Application\\BudgetTracker.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.0\\microsoft.entityframeworkcore.8.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.0\\microsoft.entityframeworkcore.abstractions.8.0.0.nupkg.sha512",
