@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YNGqdNYKInY=",
+  "dgSpecHash": "NRJxy6sBMSk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\Projects\\BudgetTracker\\BudgetTracker\\tests\\BudgetTracker.Tests\\BudgetTracker.Tests.csproj",
+  "projectFilePath": "C:\\Users\\Lenovo\\Documents\\Personal\\Prog\\Projects\\BudgetTracker\\BudgetTracker\\tests\\BudgetTracker.Tests\\BudgetTracker.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\efcore.namingconventions\\8.0.3\\efcore.namingconventions.8.0.3.nupkg.sha512",
