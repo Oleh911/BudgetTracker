@@ -1,0 +1,76 @@
+﻿@model BudgetTracker.Web.Models.BudgetDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Budget.Name;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>@Model.Budget.Name</h1>
+    <a asp-action="AddExpense" asp-route-budgetId="@Model.Budget.Id" class="btn btn-danger">
+        + Додати витрату
+    </a>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-bg-secondary">
+            <div class="card-body">
+                <h6 class="card-title">Ліміт</h6>
+                <p class="card-text fs-4">@Model.Budget.AllocatedAmount.ToString("N2") @Model.Budget.Currency</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-bg-danger">
+            <div class="card-body">
+                <h6 class="card-title">Витрачено</h6>
+                <p class="card-text fs-4">@Model.TotalExpenses.ToString("N2") @Model.Budget.Currency</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card @(Model.Remaining >= 0 ? "text-bg-success" : "text-bg-warning")">
+            <div class="card-body">
+                <h6 class="card-title">Залишок</h6>
+                <p class="card-text fs-4">@Model.Remaining.ToString("N2") @Model.Budget.Currency</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4>Операції</h4>
+
+@if (!Model.Operations.Any())
+{
+    <div class="alert alert-info">Операцій немає.</div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Тип</th>
+                <th>Сума</th>
+                <th>Нотатка</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var op in Model.Operations)
+            {
+                <tr>
+                    <td>@op.OccurredAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                    <td>
+                        <span class="badge @(op.Kind == BudgetTracker.Domain.Enums.OperationKind.Expense ? "bg-danger" : "bg-success")">
+                            @op.Kind
+                        </span>
+                    </td>
+                    <td>@(op.Amount?.ToString("N2") ?? "-") @Model.Budget.Currency</td>
+                    <td>@(op.Note ?? "-")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-outline-secondary mt-3">← Назад</a>

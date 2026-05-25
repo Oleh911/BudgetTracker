@@ -1,0 +1,42 @@
+@model IEnumerable<BudgetTracker.Domain.Entities.Budget>
+
+@{
+    ViewData["Title"] = "Бюджети";
+}
+
+<h1 class="mb-4">Мої бюджети</h1>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">Бюджети відсутні.</div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var budget in Model)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@budget.Name</h5>
+                        <p class="card-text text-muted">
+                            Ліміт: <strong>@budget.AllocatedAmount.ToString("N2") @budget.Currency</strong>
+                        </p>
+                        @if (!string.IsNullOrEmpty(budget.Note))
+                        {
+                            <p class="card-text small">@budget.Note</p>
+                        }
+                    </div>
+                    <div class="card-footer d-flex gap-2">
+                        <a asp-action="Details" asp-route-id="@budget.Id" class="btn btn-primary btn-sm">
+                            Деталі
+                        </a>
+                        <a asp-action="AddExpense" asp-route-budgetId="@budget.Id" class="btn btn-outline-danger btn-sm">
+                            + Витрата
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
