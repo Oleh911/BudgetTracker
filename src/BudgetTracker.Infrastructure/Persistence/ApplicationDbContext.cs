@@ -23,20 +23,25 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.HasPostgresEnum<CurrencyCode>("currency_code");
+        modelBuilder.HasPostgresEnum<CategoryKind>("category_kind");
+        modelBuilder.HasPostgresEnum<OperationKind>("operation_kind");
+
         // budgets
         modelBuilder.Entity<Budget>(b =>
         {
             b.ToTable("budgets");
             b.HasKey(x => x.Id);
 
-            b.Property(x => x.Name).HasMaxLength(150).IsRequired();
-            b.Property(x => x.AllocatedAmount).HasColumnType("numeric(14,2)").IsRequired();
-            b.Property(x => x.Currency).HasColumnType("currency_code").IsRequired();
-            b.Property(x => x.Note).HasColumnType("text");
-            b.Property(x => x.IsArchived).IsRequired();
-            b.Property(x => x.DisplayOrder).IsRequired();
-            b.Property(x => x.CreatedAt).IsRequired();
-            b.Property(x => x.UpdatedAt).IsRequired();
+            b.Property(x => x.Id).HasColumnName("id");
+            b.Property(x => x.Name).HasColumnName("name").HasMaxLength(150).IsRequired();
+            b.Property(x => x.AllocatedAmount).HasColumnName("allocated_amount").HasColumnType("numeric(14,2)").IsRequired();
+            b.Property(x => x.Currency).HasColumnName("currency").HasColumnType("currency_code").IsRequired();
+            b.Property(x => x.Note).HasColumnName("note").HasColumnType("text");
+            b.Property(x => x.IsArchived).HasColumnName("is_archived").IsRequired();
+            b.Property(x => x.DisplayOrder).HasColumnName("display_order").IsRequired();
+            b.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
+            b.Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
             b.HasIndex(x => x.Name).IsUnique();
             b.HasIndex(x => x.Currency);
@@ -47,14 +52,17 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             c.ToTable("categories");
             c.HasKey(x => x.Id);
-            c.Property(x => x.Name).HasMaxLength(100).IsRequired();
-            c.Property(x => x.Kind).HasColumnType("category_kind").IsRequired();
-            c.Property(x => x.Color).HasMaxLength(32);
-            c.Property(x => x.Icon).HasMaxLength(64);
-            c.Property(x => x.DisplayOrder).IsRequired();
-            c.Property(x => x.IsArchived).IsRequired();
-            c.Property(x => x.CreatedAt).IsRequired();
-            c.Property(x => x.UpdatedAt).IsRequired();
+
+            c.Property(x => x.Id).HasColumnName("id");
+            c.Property(x => x.Name).HasColumnName("name").HasMaxLength(100).IsRequired();
+            c.Property(x => x.Kind).HasColumnName("kind").HasColumnType("category_kind").IsRequired();
+            c.Property(x => x.Color).HasColumnName("color").HasMaxLength(32);
+            c.Property(x => x.Icon).HasColumnName("icon").HasMaxLength(64);
+            c.Property(x => x.DisplayOrder).HasColumnName("display_order").IsRequired();
+            c.Property(x => x.IsArchived).HasColumnName("is_archived").IsRequired();
+            c.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
+            c.Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired();
+
             c.HasIndex(x => new { x.Kind, x.Name }).IsUnique();
             c.HasIndex(x => x.Kind);
         });
@@ -64,12 +72,16 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             s.ToTable("subcategories");
             s.HasKey(x => x.Id);
-            s.Property(x => x.Name).HasMaxLength(100).IsRequired();
+
+            s.Property(x => x.Id).HasColumnName("id");
+            s.Property(x => x.CategoryId).HasColumnName("category_id");
+            s.Property(x => x.Name).HasColumnName("name").HasMaxLength(100).IsRequired();
+            s.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
+            s.Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired();
+
             s.HasIndex(x => new { x.CategoryId, x.Name }).IsUnique();
             s.HasIndex(x => x.CategoryId);
             s.HasOne<Category>().WithMany().HasForeignKey(x => x.CategoryId).OnDelete(DeleteBehavior.Restrict);
-            s.Property(x => x.CreatedAt).IsRequired();
-            s.Property(x => x.UpdatedAt).IsRequired();
         });
 
         // budget_operations
@@ -77,17 +89,20 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
         {
             o.ToTable("budget_operations");
             o.HasKey(x => x.Id);
-            o.Property(x => x.Kind).HasColumnType("operation_kind").IsRequired();
 
-            o.Property(x => x.Amount).HasColumnType("numeric(14,2)");
-            o.Property(x => x.DebitAmount).HasColumnType("numeric(14,2)");
-            o.Property(x => x.CreditAmount).HasColumnType("numeric(14,2)");
-
-            o.Property(x => x.Note).HasColumnType("text");
-
-            o.Property(x => x.OccurredAt).IsRequired();
-            o.Property(x => x.CreatedAt).IsRequired();
-            o.Property(x => x.UpdatedAt).IsRequired();
+            o.Property(x => x.Id).HasColumnName("id");
+            o.Property(x => x.Kind).HasColumnName("kind").HasColumnType("operation_kind").IsRequired();
+            o.Property(x => x.BudgetId).HasColumnName("budget_id");
+            o.Property(x => x.SourceBudgetId).HasColumnName("source_budget_id");
+            o.Property(x => x.TargetBudgetId).HasColumnName("target_budget_id");
+            o.Property(x => x.SubcategoryId).HasColumnName("subcategory_id");
+            o.Property(x => x.Amount).HasColumnName("amount").HasColumnType("numeric(14,2)");
+            o.Property(x => x.DebitAmount).HasColumnName("debit_amount").HasColumnType("numeric(14,2)");
+            o.Property(x => x.CreditAmount).HasColumnName("credit_amount").HasColumnType("numeric(14,2)");
+            o.Property(x => x.Note).HasColumnName("note").HasColumnType("text");
+            o.Property(x => x.OccurredAt).HasColumnName("occurred_at").IsRequired();
+            o.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired();
+            o.Property(x => x.UpdatedAt).HasColumnName("updated_at").IsRequired();
 
             o.HasIndex(x => new { x.Kind, x.OccurredAt });
             o.HasIndex(x => new { x.BudgetId, x.OccurredAt });

@@ -1,0 +1,31 @@
+﻿@page
+@model BudgetTracker.Web.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-4">💰 Budget Tracker</h1>
+    <p class="lead">Manage your budgets and track expenses</p>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">📊 Total Budgets</h5>
+                    <p class="display-4">@Model.BudgetsCount</p>
+                    <a asp-page="/Budgets/Index" class="btn btn-primary">View Budgets</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">💸 Total Operations</h5>
+                    <p class="display-4">@Model.OperationsCount</p>
+                    <a asp-page="/Operations/Index" class="btn btn-success">View Operations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

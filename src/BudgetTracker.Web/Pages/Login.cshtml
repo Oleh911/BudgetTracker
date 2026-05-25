@@ -1,0 +1,49 @@
+﻿@page
+@model BudgetTracker.Web.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Budget Tracker</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="card-title text-center mb-4">🔐 Budget Tracker</h3>
+
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                @Model.ErrorMessage
+                            </div>
+                        }
+
+                        <form method="post">
+                            <div class="mb-3">
+                                <label for="ApiKey" class="form-label">API Key</label>
+                                <input id="ApiKey" name="ApiKey" type="password" class="form-control" placeholder="Enter your API key" required value="@Model.ApiKey" />
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                        </form>
+
+                        <div class="mt-3 text-center">
+                            <small class="text-muted">Use the key from `Security:ApiKey` configuration or user secrets.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

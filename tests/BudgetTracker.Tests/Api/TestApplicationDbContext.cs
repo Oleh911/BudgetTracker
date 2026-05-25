@@ -12,7 +12,7 @@ public sealed class TestApplicationDbContext(DbContextOptions<TestApplicationDbC
     public DbSet<Subcategory> Subcategories => Set<Subcategory>();
     public DbSet<BudgetOperation> BudgetOperations => Set<BudgetOperation>();
 
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    Task<int> IApplicationDbContext.SaveChangesAsync(CancellationToken cancellationToken)
     {
         return base.SaveChangesAsync(cancellationToken);
     }

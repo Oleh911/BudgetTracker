@@ -28,8 +28,10 @@ public static class DependencyInjection
             options.UseNpgsql(provider.GetRequiredService<NpgsqlDataSource>(), npgsql =>
             {
                 npgsql.EnableRetryOnFailure();
-            })
-            .UseSnakeCaseNamingConvention());
+                npgsql.MapEnum<CurrencyCode>("currency_code");
+                npgsql.MapEnum<CategoryKind>("category_kind");
+                npgsql.MapEnum<OperationKind>("operation_kind");
+            }));
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 

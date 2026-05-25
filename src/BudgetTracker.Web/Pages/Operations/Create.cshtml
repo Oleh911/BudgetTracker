@@ -1,0 +1,46 @@
+﻿@page
+@model BudgetTracker.Web.Pages.Operations.CreateModel
+@{
+    ViewData["Title"] = "Add Operation";
+}
+
+<h2>💸 Add New Operation</h2>
+
+<form method="post" class="mt-4">
+    <div class="mb-3">
+        <label asp-for="Kind" class="form-label">Operation Type</label>
+        <select asp-for="Kind" class="form-select" asp-items="Html.GetEnumSelectList<BudgetTracker.Domain.Enums.OperationKind>().Where(x => x.Value != nameof(BudgetTracker.Domain.Enums.OperationKind.Transfer))"></select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SelectedBudgetId" class="form-label">Budget</label>
+        <select asp-for="SelectedBudgetId" class="form-select" asp-items="Model.Budgets" required>
+            <option value="">-- Select Budget --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SelectedSubcategoryId" class="form-label">Category</label>
+        <select asp-for="SelectedSubcategoryId" class="form-select" asp-items="Model.Subcategories" required>
+            <option value="">-- Select Category --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Amount" class="form-label">Amount</label>
+        <input asp-for="Amount" type="number" step="0.01" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="OccurredAt" class="form-label">Date</label>
+        <input asp-for="OccurredAt" type="datetime-local" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Note" class="form-label">Note (Optional)</label>
+        <textarea asp-for="Note" class="form-control" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Operation</button>
+    <a asp-page="/Operations/Index" class="btn btn-secondary">Cancel</a>
+</form>

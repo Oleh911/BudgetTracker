@@ -1,0 +1,40 @@
+﻿@page
+@model BudgetTracker.Web.Pages.Budgets.IndexModel
+@{
+    ViewData["Title"] = "Budgets";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📊 My Budgets</h2>
+    <a asp-page="/Budgets/Create" class="btn btn-primary">+ Create Budget</a>
+</div>
+
+@if (!Model.Budgets.Any())
+{
+    <div class="alert alert-info">
+        No budgets found. <a asp-page="/Budgets/Create">Create your first budget</a>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var budget in Model.Budgets)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@budget.Name</h5>
+                        <p class="card-text">
+                            <strong>@budget.AllocatedAmount.ToString("N2") @budget.Currency</strong>
+                        </p>
+                        @if (!string.IsNullOrEmpty(budget.Note))
+                        {
+                            <p class="text-muted small">@budget.Note</p>
+                        }
+                        <a asp-page="/Operations/Create" asp-route-budgetId="@budget.Id" class="btn btn-sm btn-success">Add Operation</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

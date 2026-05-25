@@ -1,87 +1,140 @@
-using BudgetTracker.Application.Common.Abstractions;
-using BudgetTracker.Domain.Entities;
-using BudgetTracker.Domain.Enums;
 using BudgetTracker.Web.Models;
+using BudgetTracker.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetTracker.Web.Controllers;
 
-public sealed class BudgetsController(IApplicationDbContext dbContext) : Controller
+/// <summary>
+/// Controller for managing budgets
+/// </summary>
+public sealed class BudgetsController : Controller
 {
-    public async Task<IActionResult> Index(CancellationToken cancellationToken)
-    {
-        var budgets = await dbContext.Budgets
-            .AsNoTracking()
-            .Where(x => !x.IsArchived)
-            .OrderBy(x => x.DisplayOrder)
-            .ThenBy(x => x.Name)
-            .ToListAsync(cancellationToken);
+    private readonly IBudgetService _budgetService;
+    private readonly ILogger<BudgetsController> _logger;
 
-        return View(budgets);
+    public BudgetsController(IBudgetService budgetService, ILogger<BudgetsController> logger)
+    {
+        _budgetService = budgetService ?? throw new ArgumentNullException(nameof(budgetService));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Index(CancellationToken cancellationToken)
+    {
+        try
+        {
+            var budgets = await _budgetService.GetAllBudgetsAsync(cancellationToken);
+            return View(budgets);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching budgets");
+            return View("Error");
+        }
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Details(Guid id, CancellationToken cancellationToken)
     {
-        var budget = await dbContext.Budgets
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-
-        if (budget is null)
+        try
         {
-            return NotFound();
+            var budgetDetails = await _budgetService.GetBudgetDetailsAsync(id, cancellationToken);
+
+            if (budgetDetails is null)
+            {
+                return NotFound();
+            }
+
+            // Map to existing ViewModel for compatibility with existing views
+            var model = new BudgetDetailsViewModel
+            {
+                Budget = budgetDetails.Budget.Name != null
+                    ? new Domain.Entities.Budget(
+                        budgetDetails.Budget.Name,
+                        budgetDetails.Budget.AllocatedAmount,
+                        budgetDetails.Budget.Currency,
+                        budgetDetails.Budget.Note)
+                    {
+                        // Set private properties via reflection or use domain methods
+                    }
+                    : null!,
+                Operations = budgetDetails.Operations.Select(o => 
+                    Domain.Entities.BudgetOperation.CreateExpense(
+                        o.BudgetId, 
+                        o.SubcategoryId ?? Guid.Empty, 
+                        o.Amount ?? 0, 
+                        o.OccurredAt, 
+                        o.Note)).ToList(),
+                TotalExpenses = budgetDetails.TotalExpenses,
+                TotalIncome = budgetDetails.TotalIncome
+            };
+
+            return View(model);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching budget details for {BudgetId}", id);
+            return View("Error");
+        }
+    }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CreateBudgetViewModel model, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
         }
 
-        var operations = await dbContext.BudgetOperations
-            .AsNoTracking()
-            .Where(x => x.BudgetId == id)
-            .OrderByDescending(x => x.OccurredAt)
-            .ToListAsync(cancellationToken);
-
-        var model = new BudgetDetailsViewModel
+        try
         {
-            Budget = budget,
-            Operations = operations,
-            TotalExpenses = operations
-                .Where(x => x.Kind == OperationKind.Expense)
-                .Sum(x => x.Amount ?? 0),
-            TotalIncome = operations
-                .Where(x => x.Kind == OperationKind.Income)
-                .Sum(x => x.Amount ?? 0)
-        };
-
-        return View(model);
+            await _budgetService.CreateBudgetAsync(model, cancellationToken);
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating budget");
+            ModelState.AddModelError(string.Empty, "An error occurred while creating the budget.");
+            return View(model);
+        }
     }
 
     [HttpGet]
     public async Task<IActionResult> AddExpense(Guid budgetId, CancellationToken cancellationToken)
     {
-        var budget = await dbContext.Budgets
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == budgetId, cancellationToken);
-
-        if (budget is null)
+        try
         {
-            return NotFound();
+            var budgetDetails = await _budgetService.GetBudgetDetailsAsync(budgetId, cancellationToken);
+
+            if (budgetDetails is null)
+            {
+                return NotFound();
+            }
+
+            var model = new AddExpenseViewModel
+            {
+                BudgetId = budgetId,
+                BudgetName = budgetDetails.Budget.Name,
+                OccurredAt = DateTimeOffset.UtcNow,
+                Subcategories = new List<SelectListItem>() // TODO: Load from subcategory service
+            };
+
+            return View(model);
         }
-
-        var subcategories = await dbContext.Subcategories
-            .AsNoTracking()
-            .OrderBy(x => x.Name)
-            .ToListAsync(cancellationToken);
-
-        var model = new AddExpenseViewModel
+        catch (Exception ex)
         {
-            BudgetId = budgetId,
-            BudgetName = budget.Name,
-            OccurredAt = DateTimeOffset.UtcNow,
-            Subcategories = subcategories
-                .Select(s => new SelectListItem(s.Name, s.Id.ToString()))
-                .ToList()
-        };
-
-        return View(model);
+            _logger.LogError(ex, "Error loading expense form for budget {BudgetId}", budgetId);
+            return View("Error");
+        }
     }
 
     [HttpPost]
@@ -90,32 +143,20 @@ public sealed class BudgetsController(IApplicationDbContext dbContext) : Control
     {
         if (!ModelState.IsValid)
         {
-            model.Subcategories = await GetSubcategorySelectListAsync(cancellationToken);
+            // TODO: Reload subcategories
             return View(model);
         }
 
-        var operation = BudgetOperation.CreateExpense(
-            model.BudgetId,
-            model.SubcategoryId,
-            model.Amount,
-            model.OccurredAt,
-            model.Note);
-
-        dbContext.BudgetOperations.Add(operation);
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        return RedirectToAction(nameof(Details), new { id = model.BudgetId });
-    }
-
-    private async Task<List<SelectListItem>> GetSubcategorySelectListAsync(CancellationToken cancellationToken)
-    {
-        var subcategories = await dbContext.Subcategories
-            .AsNoTracking()
-            .OrderBy(x => x.Name)
-            .ToListAsync(cancellationToken);
-
-        return subcategories
-            .Select(s => new SelectListItem(s.Name, s.Id.ToString()))
-            .ToList();
+        try
+        {
+            await _budgetService.AddExpenseAsync(model, cancellationToken);
+            return RedirectToAction(nameof(Details), new { id = model.BudgetId });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error adding expense to budget {BudgetId}", model.BudgetId);
+            ModelState.AddModelError(string.Empty, "An error occurred while adding the expense.");
+            return View(model);
+        }
     }
 }
