@@ -28,7 +28,7 @@ public class CreateModel : PageModel
     public decimal Amount { get; set; }
 
     [BindProperty]
-    public DateTimeOffset OccurredAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset OccurredAt { get; set; } = DateTimeOffset.Now;
 
     [BindProperty]
     public string? Note { get; set; }
@@ -59,12 +59,14 @@ public class CreateModel : PageModel
             return Page();
         }
 
+        var occurredAtUtc = OccurredAt.ToUniversalTime();
+
         BudgetOperation operation = Kind switch
         {
             OperationKind.Expense => BudgetOperation.CreateExpense(
-                SelectedBudgetId, SelectedSubcategoryId, Amount, OccurredAt, Note),
+                SelectedBudgetId, SelectedSubcategoryId, Amount, occurredAtUtc, Note),
             OperationKind.Income => BudgetOperation.CreateIncome(
-                SelectedBudgetId, SelectedSubcategoryId, Amount, OccurredAt, Note),
+                SelectedBudgetId, SelectedSubcategoryId, Amount, occurredAtUtc, Note),
             _ => throw new InvalidOperationException($"Unsupported operation kind: {Kind}")
         };
 

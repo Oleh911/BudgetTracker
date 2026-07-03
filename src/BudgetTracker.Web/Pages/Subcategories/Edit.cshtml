@@ -1,0 +1,27 @@
+@page "{id:guid}"
+@model BudgetTracker.Web.Pages.Subcategories.EditModel
+@{
+    ViewData["Title"] = "Edit Subcategory";
+}
+
+<h2>?? Edit Subcategory</h2>
+
+<form method="post" class="mt-4">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        <select asp-for="CategoryId" class="form-select" asp-items="Model.Categories"></select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-page="/Subcategories/Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,36 @@
+@page
+@model BudgetTracker.Web.Pages.Categories.CreateModel
+@{
+    ViewData["Title"] = "Create Category";
+}
+
+<h2>? Create New Category</h2>
+
+<form method="post" class="mt-4">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control" placeholder="e.g., Food" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Kind" class="form-label">Kind</label>
+        <select asp-for="Kind" class="form-select" asp-items="Html.GetEnumSelectList<BudgetTracker.Domain.Enums.CategoryKind>()"></select>
+        <span asp-validation-for="Kind" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Color" class="form-label">Color</label>
+        <input asp-for="Color" class="form-control" placeholder="e.g., #00A3FF" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Icon" class="form-label">Icon</label>
+        <input asp-for="Icon" class="form-control" placeholder="e.g., cart" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create Category</button>
+    <a asp-page="/Categories/Index" class="btn btn-secondary">Cancel</a>
+</form>

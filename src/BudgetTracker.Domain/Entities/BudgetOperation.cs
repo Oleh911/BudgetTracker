@@ -105,6 +105,82 @@ public sealed class BudgetOperation
         };
     }
 
+    public void UpdateExpense(
+        Guid budgetId,
+        Guid subcategoryId,
+        decimal amount,
+        DateTimeOffset occurredAt,
+        string? note = null)
+    {
+        if (Kind != OperationKind.Expense)
+        {
+            throw new InvalidOperationException("Operation is not an expense.");
+        }
+
+        if (budgetId == Guid.Empty) throw new ArgumentException("BudgetId required.", nameof(budgetId));
+        if (subcategoryId == Guid.Empty) throw new ArgumentException("SubcategoryId required.", nameof(subcategoryId));
+        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be greater than zero.");
+
+        BudgetId = budgetId;
+        SubcategoryId = subcategoryId;
+        Amount = amount;
+        OccurredAt = occurredAt;
+        Note = Normalize(note);
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void UpdateIncome(
+        Guid budgetId,
+        Guid subcategoryId,
+        decimal amount,
+        DateTimeOffset occurredAt,
+        string? note = null)
+    {
+        if (Kind != OperationKind.Income)
+        {
+            throw new InvalidOperationException("Operation is not an income.");
+        }
+
+        if (budgetId == Guid.Empty) throw new ArgumentException("BudgetId required.", nameof(budgetId));
+        if (subcategoryId == Guid.Empty) throw new ArgumentException("SubcategoryId required.", nameof(subcategoryId));
+        if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be greater than zero.");
+
+        BudgetId = budgetId;
+        SubcategoryId = subcategoryId;
+        Amount = amount;
+        OccurredAt = occurredAt;
+        Note = Normalize(note);
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
+    public void UpdateTransfer(
+        Guid sourceBudgetId,
+        Guid targetBudgetId,
+        decimal debitAmount,
+        decimal creditAmount,
+        DateTimeOffset occurredAt,
+        string? note = null)
+    {
+        if (Kind != OperationKind.Transfer)
+        {
+            throw new InvalidOperationException("Operation is not a transfer.");
+        }
+
+        if (sourceBudgetId == Guid.Empty) throw new ArgumentException("SourceBudgetId required.", nameof(sourceBudgetId));
+        if (targetBudgetId == Guid.Empty) throw new ArgumentException("TargetBudgetId required.", nameof(targetBudgetId));
+        if (sourceBudgetId == targetBudgetId) throw new ArgumentException("Source and target budgets must be different.");
+        if (debitAmount <= 0) throw new ArgumentOutOfRangeException(nameof(debitAmount), "DebitAmount must be greater than zero.");
+        if (creditAmount <= 0) throw new ArgumentOutOfRangeException(nameof(creditAmount), "CreditAmount must be greater than zero.");
+
+        SourceBudgetId = sourceBudgetId;
+        TargetBudgetId = targetBudgetId;
+        DebitAmount = debitAmount;
+        CreditAmount = creditAmount;
+        OccurredAt = occurredAt;
+        Note = Normalize(note);
+        UpdatedAt = DateTimeOffset.UtcNow;
+    }
+
     public void UpdateNote(string? note)
     {
         Note = Normalize(note);

@@ -1,0 +1,65 @@
+@page
+@model BudgetTracker.Web.Pages.Subcategories.IndexModel
+@{
+    ViewData["Title"] = "Subcategories";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>?? Subcategories</h2>
+        <form method="get" class="mt-3 d-flex gap-2 align-items-center">
+            <select asp-for="CategoryId" class="form-select" style="min-width: 260px;" asp-items="Model.Categories">
+                <option value="">All categories</option>
+            </select>
+            <button type="submit" class="btn btn-outline-primary">Filter</button>
+        </form>
+    </div>
+    <a asp-page="/Subcategories/Create" class="btn btn-primary">+ Create Subcategory</a>
+</div>
+
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
+@if (!Model.Subcategories.Any())
+{
+    <div class="alert alert-info">
+        No subcategories found. <a asp-page="/Subcategories/Create">Create your first subcategory</a>
+    </div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Name</th>
+                <th>Kind</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var subcategory in Model.Subcategories)
+            {
+                <tr>
+                    <td>@subcategory.CategoryName</td>
+                    <td>@subcategory.Name</td>
+                    <td>@subcategory.CategoryKind</td>
+                    <td class="text-end">
+                        <a asp-page="/Subcategories/Edit" asp-route-id="@subcategory.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <form method="post" asp-page-handler="Delete" class="d-inline" onsubmit="return confirm('Delete this subcategory?');">
+                            <input type="hidden" name="id" value="@subcategory.Id" />
+                            <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div class="mt-3">
+    <a asp-page="/Categories/Index" class="btn btn-secondary">Back to Categories</a>
+</div>
