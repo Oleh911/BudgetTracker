@@ -1,11 +1,9 @@
-﻿using BudgetTracker.Application.Common.Abstractions;
-using BudgetTracker.Infrastructure;
+﻿using BudgetTracker.Infrastructure;
 using BudgetTracker.Infrastructure.Persistence;
 using BudgetTracker.Web.Middleware;
 using BudgetTracker.Web.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +15,6 @@ builder.Logging.AddDebug();
 // Add services to the container
 // NOTE: Access control is handled by ApiKeyMiddleware, so we avoid ASP.NET authorization policies here.
 builder.Services.AddRazorPages();
-
-builder.Services.AddControllersWithViews();
 
 // Add infrastructure services
 builder.Services.AddInfrastructure(builder.Configuration);
@@ -73,7 +69,6 @@ app.UseMiddleware<ApiKeyMiddleware>();
 
 // Configure endpoints
 app.MapRazorPages();
-app.MapControllers();
 
 // Health check endpoints
 app.MapHealthChecks("/health", new HealthCheckOptions
